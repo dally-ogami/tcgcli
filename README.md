@@ -136,4 +136,4 @@ Note: The actual output may differ based on your interactions with the script an
 Thanks to **@hugoburguete's** for their awesome [pokemon-tcg-pocket-card-database](https://github.com/hugoburguete/pokemon-tcg-pocket-card-database)
 
 ## License
-This project is licensed under the MIT License.
+This project is licensed under the MIT License. You can do what you want with this script, the author provides no guarantees with it. 
