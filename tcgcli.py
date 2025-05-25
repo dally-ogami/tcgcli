@@ -350,31 +350,69 @@ def main_menu(deck):
 
         if choice == "0":
             deck.list_available_cards()
-            cont = input(Fore.MAGENTA + "\nDo you want to add a card or go back to the main menu? (add/main): ").strip().lower()
+            cont = (
+                input(
+                    Fore.MAGENTA
+                    + "\nDo you want to add a card or go back to the main menu? (add/main): "
+                )
+                .strip()
+                .lower()
+            )
             if cont == "add":
-                search_term = input(Fore.MAGENTA + "\nEnter search term (name or set): ").strip()
+                search_term = input(
+                    Fore.MAGENTA + "\nEnter search term (name or set): "
+                ).strip()
                 deck.add_card(search_term)
             elif cont != "main":
                 print(Fore.RED + "Invalid choice. Going back to the main menu.")
         elif choice == "1":
-            search_term = input(Fore.MAGENTA + "\nEnter search term (name or set): ").strip()
+            search_term = input(
+                Fore.MAGENTA + "\nEnter search term (name or set): "
+            ).strip()
             deck.add_card(search_term)
-            cont = input(Fore.MAGENTA + "\nDo you want to add another card? (yes/no): ").strip().lower()
+            cont = (
+                input(Fore.MAGENTA + "\nDo you want to add another card? (yes/no): ")
+                .strip()
+                .lower()
+            )
             while cont == "yes":
-                search_term = input(Fore.MAGENTA + "\nEnter search term (name or set): ").strip()
+                search_term = input(
+                    Fore.MAGENTA + "\nEnter search term (name or set): "
+                ).strip()
                 deck.add_card(search_term)
-                cont = input(Fore.MAGENTA + "\nDo you want to add another card? (yes/no): ").strip().lower()
+                cont = (
+                    input(
+                        Fore.MAGENTA + "\nDo you want to add another card? (yes/no): "
+                    )
+                    .strip()
+                    .lower()
+                )
             if cont != "no":
                 print(Fore.RED + "Invalid choice. Going back to the main menu.")
         elif choice == "2":
             deck.view_deck()
-            cont = input(Fore.MAGENTA + "\nDo you want to remove a card or go back to the main menu? (rm/main): ").strip().lower()
+            cont = (
+                input(
+                    Fore.MAGENTA
+                    + "\nDo you want to remove a card or go back to the main menu? (rm/main): "
+                )
+                .strip()
+                .lower()
+            )
             if cont == "rm":
                 if not deck.cards:
                     print(Fore.RED + "Cannot remove from an empty deck.")
                 else:
                     try:
-                        index = int(input(Fore.MAGENTA + "\nEnter the position (number) of the card to remove: ")) - 1
+                        index = (
+                            int(
+                                input(
+                                    Fore.MAGENTA
+                                    + "\nEnter the position (number) of the card to remove: "
+                                )
+                            )
+                            - 1
+                        )
                         deck.remove_card(index)
                     except ValueError:
                         print(Fore.RED + "Please enter a valid number.")
@@ -386,30 +424,74 @@ def main_menu(deck):
             else:
                 deck.view_deck()
                 try:
-                    index = int(input(Fore.MAGENTA + "\nEnter the position (number) of the card to remove: ")) - 1
+                    index = (
+                        int(
+                            input(
+                                Fore.MAGENTA
+                                + "\nEnter the position (number) of the card to remove: "
+                            )
+                        )
+                        - 1
+                    )
                     deck.remove_card(index)
                 except ValueError:
                     print(Fore.RED + "Please enter a valid number.")
-                cont = input(Fore.MAGENTA + "\nDo you want to remove another card? (yes/no): ").strip().lower()
+                cont = (
+                    input(
+                        Fore.MAGENTA
+                        + "\nDo you want to remove another card? (yes/no): "
+                    )
+                    .strip()
+                    .lower()
+                )
                 while cont == "yes":
                     if not deck.cards:
                         print(Fore.RED + "Cannot remove from an empty deck.")
                         break
                     deck.view_deck()
                     try:
-                        index = int(input(Fore.MAGENTA + "\nEnter the position (number) of the card to remove: ")) - 1
+                        index = (
+                            int(
+                                input(
+                                    Fore.MAGENTA
+                                    + "\nEnter the position (number) of the card to remove: "
+                                )
+                            )
+                            - 1
+                        )
                         deck.remove_card(index)
                     except ValueError:
                         print(Fore.RED + "Please enter a valid number.")
-                    cont = input(Fore.MAGENTA + "\nDo you want to remove another card? (yes/no): ").strip().lower()
+                    cont = (
+                        input(
+                            Fore.MAGENTA
+                            + "\nDo you want to remove another card? (yes/no): "
+                        )
+                        .strip()
+                        .lower()
+                    )
                 if cont != "no":
                     print(Fore.RED + "Invalid choice. Going back to the main menu.")
         elif choice == "4":
             deck.record_battle()
-            cont = input(Fore.MAGENTA + "\nDo you want to record another battle or go back to the main menu? (add/main): ").strip().lower()
+            cont = (
+                input(
+                    Fore.MAGENTA
+                    + "\nDo you want to record another battle or go back to the main menu? (add/main): "
+                )
+                .strip()
+                .lower()
+            )
             while cont == "add":
                 deck.record_battle()
-                cont = input(Fore.MAGENTA + "\nDo you want to record another battle or go back to the main menu? (add/main): ").strip().lower()
+                cont = (
+                    input(
+                        Fore.MAGENTA
+                        + "\nDo you want to record another battle or go back to the main menu? (add/main): "
+                    )
+                    .strip()
+                    .lower()
+                )
             if cont != "main":
                 print(Fore.RED + "Invalid choice. Going back to the main menu.")
         elif choice == "5":
@@ -420,6 +502,7 @@ def main_menu(deck):
             break
         else:
             print(Fore.RED + "Invalid choice. Please try again.")
+
 
 if __name__ == "__main__":
     manager = DeckManager()
