@@ -1,5 +1,7 @@
 import json
 import os
+import urllib.error
+import urllib.request
 from colorama import Fore, init
 from datetime import datetime
 
@@ -17,19 +19,38 @@ class Deck:
         self.load_deck()
 
     def load_valid_cards(self):
-        """Load valid cards from valid_cards.json. Normalize 'name' and 'set' to lowercase for searching."""
+        """Load valid cards from online database with local fallback.
+
+        Normalizes ``name`` and ``set`` fields to lowercase for searching.
+        """
+        url = (
+            "https://raw.githubusercontent.com/flibustier/"
+            "pokemon-tcg-pocket-database/main/dist/cards.json"
+        )
+        cards = []
+
         try:
-            with open("valid_cards.json", "r") as f:
-                cards = json.load(f)
-            for card in cards:
-                if "name" in card:
-                    card["name"] = card["name"].lower()
-                if "set" in card and isinstance(card["set"], str):
-                    card["set"] = card["set"].lower()
-            return cards
-        except FileNotFoundError:
-            print(Fore.RED + "Error: valid_cards.json not found.")
-            return []
+            with urllib.request.urlopen(url) as response:
+                cards = json.load(response)
+            print(Fore.GREEN + "Loaded latest card data from online database.")
+        except (urllib.error.URLError, urllib.error.HTTPError, ValueError) as e:
+            print(
+                Fore.YELLOW
+                + f"Warning: Could not fetch latest card data ({e}). Using local cache."
+            )
+            try:
+                with open("valid_cards.json", "r") as f:
+                    cards = json.load(f)
+            except FileNotFoundError:
+                print(Fore.RED + "Error: valid_cards.json not found.")
+                return []
+
+        for card in cards:
+            if "name" in card:
+                card["name"] = card["name"].lower()
+            if "set" in card and isinstance(card["set"], str):
+                card["set"] = card["set"].lower()
+        return cards
 
     def load_deck(self):
         """

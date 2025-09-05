@@ -19,7 +19,7 @@ A really crude tool for building Pokémon TCG Pocket decks, tracking battle outc
   Easily create or load decks saved as JSON files within the `decks` directory.
   
 **Card Management**  
-  List available cards (read from `valid_cards.json`), search by card name or set, and add cards to your deck (with a limit of 2 copies per card across all sets).
+  List available cards retrieved from an up-to-date online database (with a local fallback `valid_cards.json`), search by card name or set, and add cards to your deck (with a limit of 2 copies per card across all sets).
 
 **Battle Records**  
   Record battle outcomes (win or loss), along with opponent details and a timestamp.
@@ -130,10 +130,10 @@ Main Menu:
   6: Save and exit
 ```
 ###
-Note: The actual output may differ based on your interactions with the script and the contents of valid_cards.json.
+Note: The actual output may differ based on your interactions with the script and the contents of the card database.
 
 ## Thanks
-Thanks to **@hugoburguete's** for their awesome [pokemon-tcg-pocket-card-database](https://github.com/hugoburguete/pokemon-tcg-pocket-card-database)
+Thanks to **@flibustier** for maintaining the [pokemon-tcg-pocket-database](https://github.com/flibustier/pokemon-tcg-pocket-database).
 
 ## License
 This project is licensed under the MIT License. You can do what you want with this script, the author provides no guarantees with it. 
