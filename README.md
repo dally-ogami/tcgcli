@@ -1,6 +1,6 @@
 # TCGCLI 
 
-A really crude tool for building Pokémon TCG Pocket decks, tracking battle outcomes, and generating battle statistics so I can improve my game. This script helps you manage your deck by letting you add cards from a list of valid TCG Pocket cards (all sets to date `4.13.25`), manage copy limits, and record battle outcomes along with statistics. Pretty useful for my needs, but hey take what's useful and discard the rest <3
+A really crude tool for building Pokémon TCG Pocket decks, tracking battle outcomes, and generating battle statistics so I can improve my game. This script helps you manage your deck by letting you add cards from a list of valid TCG Pocket cards, manage copy limits, and record battle outcomes along with statistics. Pretty useful for my needs, but hey take what's useful and discard the rest <3
 
 ## Table of Contents
 
