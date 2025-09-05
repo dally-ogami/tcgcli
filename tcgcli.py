@@ -1,5 +1,7 @@
 import json
 import os
+import urllib.error
+import urllib.request
 from colorama import Fore, init
 from datetime import datetime
 
@@ -17,19 +19,72 @@ class Deck:
         self.load_deck()
 
     def load_valid_cards(self):
-        """Load valid cards from valid_cards.json. Normalize 'name' and 'set' to lowercase for searching."""
+        """Load valid cards from the online database with a local fallback.
+
+        The online API provides ``cards.json`` and ``sets.json`` files.  They are
+        combined here into the simplified structure used by the CLI:
+        ``{"name": str, "set": str, "id": str}`` with ``name`` and ``set``
+        lowercased for searching.
+        """
+
+        cards_url = (
+            "https://raw.githubusercontent.com/flibustier/"
+            "pokemon-tcg-pocket-database/main/dist/cards.json"
+        )
+        sets_url = (
+            "https://raw.githubusercontent.com/flibustier/"
+            "pokemon-tcg-pocket-database/main/dist/sets.json"
+        )
+
         try:
-            with open("valid_cards.json", "r") as f:
-                cards = json.load(f)
-            for card in cards:
-                if "name" in card:
-                    card["name"] = card["name"].lower()
-                if "set" in card and isinstance(card["set"], str):
-                    card["set"] = card["set"].lower()
-            return cards
-        except FileNotFoundError:
-            print(Fore.RED + "Error: valid_cards.json not found.")
-            return []
+            with urllib.request.urlopen(cards_url) as response:
+                raw_cards = json.load(response)
+            with urllib.request.urlopen(sets_url) as response:
+                sets = json.load(response)
+
+            set_map = {
+                s.get("code"): s.get("label", {}).get("en", s.get("code"))
+                for s in sets
+            }
+
+            cards = []
+            for card in raw_cards:
+                set_code = card.get("set")
+                number = card.get("number")
+                label = card.get("label", {})
+                name = label.get("eng") or label.get("en")
+
+                if not (set_code and number and name):
+                    continue
+
+                set_name = set_map.get(set_code, set_code)
+                cards.append(
+                    {
+                        "name": name.lower(),
+                        "set": f"{set_name} ({set_code})".lower(),
+                        "id": f"{set_code.lower()}-{int(number):03d}",
+                    }
+                )
+
+            print(Fore.GREEN + "Loaded latest card data from online database.")
+        except (urllib.error.URLError, urllib.error.HTTPError, ValueError, KeyError) as e:
+            print(
+                Fore.YELLOW
+                + f"Warning: Could not fetch latest card data ({e}). Using local cache.",
+            )
+            try:
+                with open("valid_cards.json", "r") as f:
+                    cards = json.load(f)
+                for card in cards:
+                    if "name" in card:
+                        card["name"] = card["name"].lower()
+                    if "set" in card and isinstance(card["set"], str):
+                        card["set"] = card["set"].lower()
+            except FileNotFoundError:
+                print(Fore.RED + "Error: valid_cards.json not found.")
+                return []
+
+        return cards
 
     def load_deck(self):
         """
