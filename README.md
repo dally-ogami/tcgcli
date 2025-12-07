@@ -1,6 +1,6 @@
-# TCGCLI 
+# TCGCLI
 
-A really crude tool for building Pokémon TCG Pocket decks, tracking battle outcomes, and generating battle statistics so I can improve my game. This script helps you manage your deck by letting you add cards from a list of valid TCG Pocket cards, manage copy limits, and record battle outcomes along with statistics. Pretty useful for my needs, but hey take what's useful and discard the rest <3
+A really crude tool for building Pokémon TCG Pocket decks, tracking battle outcomes, and generating battle statistics so I can improve my game. The CLI helps you manage your deck by letting you add cards from a list of valid TCG Pocket cards, manage copy limits, and record battle outcomes along with statistics. Pretty useful for my needs, but hey take what's useful and discard the rest <3
 
 ## Table of Contents
 
@@ -28,26 +28,29 @@ A really crude tool for building Pokémon TCG Pocket decks, tracking battle outc
   Calculate and display overall battle statistics, and generate am ASCII win/loss graph.
 
 **User-Friendly Interface**  
-Colorama for colored command-line output.
+ANSI-colored command-line output (auto-reset).
 
 ## Prerequisites
 
-- Python 3.6+
-- [colorama](https://pypi.org/project/colorama/)
+- Go 1.22+
 
-## Installation
+## Build & Run
 
-1. **Clone the Repository:**
+```bash
+# Clone the repository
+git clone https://github.com/dally-ogami/tcgcli.git
+cd tcgcli
 
-   ```bash
-   git clone https://github.com/dally-ogami/tcgcli.git
-    ```
- ## Usage
- 1. `python3 tcgcli.py`
+# Build the CLI
+go build -o tcgcli ./cmd/tcgcli
+
+# Run it (or use go run ./cmd/tcgcli)
+./tcgcli
+```
 
 ## Sample Output
 ```bash
-python3 tcgcli.py
+./tcgcli
 
 Deck Manager Options:
   1: Create a new deck
@@ -130,7 +133,7 @@ Main Menu:
   6: Save and exit
 ```
 ###
-Note: The actual output may differ based on your interactions with the script and the contents of the card database.
+Note: The actual output may differ based on your interactions with the CLI and the contents of the card database.
 
 ## Thanks
 Thanks to **@flibustier** for maintaining the [pokemon-tcg-pocket-database](https://github.com/flibustier/pokemon-tcg-pocket-database).
