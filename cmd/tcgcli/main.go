@@ -456,9 +456,10 @@ func (d *Deck) ShowStatistics() {
 	wins := 0
 	loseMatchups := make(map[string]int)
 	for _, battle := range d.BattleHistory {
-		if strings.EqualFold(battle.Result, "W") {
+		switch {
+		case strings.EqualFold(battle.Result, "W"):
 			wins++
-		} else {
+		case strings.EqualFold(battle.Result, "L"):
 			loseMatchups[battle.Opponent]++
 		}
 	}
