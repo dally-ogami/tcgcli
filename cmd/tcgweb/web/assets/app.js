@@ -13,11 +13,63 @@ const statsGrid = document.getElementById("statsGrid");
 const lossList = document.getElementById("lossList");
 const deckStatus = document.getElementById("deckStatus");
 const connectionStatus = document.getElementById("connectionStatus");
+const themeSelect = document.getElementById("themeSelect");
+const backgroundUpload = document.getElementById("backgroundUpload");
+const clearBackground = document.getElementById("clearBackground");
+
+const THEME_KEY = "tcgcli-theme";
+const BG_KEY = "tcgcli-background";
 
 function setStatus(text, variant = "info") {
   connectionStatus.textContent = text;
   connectionStatus.style.background = variant === "error" ? "rgba(248, 113, 113, 0.2)" : "rgba(56, 189, 248, 0.2)";
   connectionStatus.style.color = variant === "error" ? "#fecaca" : "#38bdf8";
+}
+
+function applyTheme(theme) {
+  if (!theme || theme === "default") {
+    document.documentElement.removeAttribute("data-theme");
+    return;
+  }
+  document.documentElement.setAttribute("data-theme", theme);
+}
+
+function setCustomBackground(dataUrl) {
+  if (!dataUrl) {
+    return;
+  }
+  document.body.style.setProperty("--custom-bg", `url("${dataUrl}")`);
+  if (clearBackground) {
+    clearBackground.disabled = false;
+  }
+}
+
+function clearCustomBackground() {
+  document.body.style.setProperty("--custom-bg", "none");
+  localStorage.removeItem(BG_KEY);
+  if (backgroundUpload) {
+    backgroundUpload.value = "";
+  }
+  if (clearBackground) {
+    clearBackground.disabled = true;
+  }
+}
+
+function loadAppearanceSettings() {
+  const storedTheme = localStorage.getItem(THEME_KEY) || "default";
+  if (themeSelect) {
+    themeSelect.value = storedTheme;
+    applyTheme(storedTheme);
+  }
+
+  const storedBackground = localStorage.getItem(BG_KEY);
+  if (storedBackground) {
+    setCustomBackground(storedBackground);
+  } else {
+    if (clearBackground) {
+      clearBackground.disabled = true;
+    }
+  }
 }
 
 async function apiFetch(path, options = {}) {
@@ -70,7 +122,7 @@ function renderDeck(deck) {
           <span class="muted">${entry.count}x</span>
         </header>
         <div class="muted">${entry.set}</div>
-        <button type="button" class="secondary" data-index="${index}">Remove</button>
+        <button type="button" class="danger" data-index="${index}">Remove</button>
       `;
       item.querySelector("button").addEventListener("click", () => removeCard(index));
       deckCards.appendChild(item);
@@ -229,6 +281,7 @@ async function recordBattle(event) {
 
 async function init() {
   setStatus("Connecting...");
+  loadAppearanceSettings();
   await loadDecks();
   setStatus("Connected");
 }
@@ -237,5 +290,37 @@ document.getElementById("createDeckForm").addEventListener("submit", createDeck)
 document.getElementById("searchForm").addEventListener("submit", searchCards);
 document.getElementById("battleForm").addEventListener("submit", recordBattle);
 deckSelect.addEventListener("change", (event) => loadDeck(event.target.value));
+
+if (themeSelect) {
+  themeSelect.addEventListener("change", (event) => {
+    const nextTheme = event.target.value;
+    localStorage.setItem(THEME_KEY, nextTheme);
+    applyTheme(nextTheme);
+  });
+}
+
+if (backgroundUpload) {
+  backgroundUpload.addEventListener("change", (event) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const dataUrl = reader.result;
+      if (typeof dataUrl === "string") {
+        localStorage.setItem(BG_KEY, dataUrl);
+        setCustomBackground(dataUrl);
+      }
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+if (clearBackground) {
+  clearBackground.addEventListener("click", () => {
+    clearCustomBackground();
+  });
+}
 
 init();

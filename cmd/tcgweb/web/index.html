@@ -16,6 +16,40 @@
   </header>
 
   <main class="app-shell">
+    <section class="panel" aria-labelledby="appearance-title">
+      <h2 id="appearance-title">Appearance</h2>
+      <div class="stack">
+        <label for="themeSelect">Color theme</label>
+        <select id="themeSelect">
+          <option value="default">Default Midnight</option>
+          <optgroup label="Redoc">
+            <option value="ferra">Ferra</option>
+          </optgroup>
+          <optgroup label="Catppuccin">
+            <option value="catppuccin-latte">Latte</option>
+            <option value="catppuccin-frappe">Frappé</option>
+            <option value="catppuccin-macchiato">Macchiato</option>
+            <option value="catppuccin-mocha">Mocha</option>
+          </optgroup>
+          <optgroup label="Tokyo Night">
+            <option value="tokyo-night">Night</option>
+            <option value="tokyo-night-storm">Storm</option>
+            <option value="tokyo-night-moon">Moon</option>
+          </optgroup>
+          <optgroup label="Gruvbox">
+            <option value="gruvbox-dark">Dark</option>
+            <option value="gruvbox-light">Light</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="stack">
+        <label for="backgroundUpload">Custom background</label>
+        <input id="backgroundUpload" type="file" accept="image/*" />
+        <button type="button" class="secondary" id="clearBackground">Remove background</button>
+        <p class="helper">Backgrounds are stored locally in your browser and never uploaded.</p>
+      </div>
+    </section>
+
     <section class="panel" aria-labelledby="deck-manager-title">
       <h2 id="deck-manager-title">Deck Manager</h2>
       <form id="createDeckForm" class="stack">
@@ -36,7 +70,7 @@
       <div class="notice" id="deckNotice" role="status"></div>
     </section>
 
-    <section class="panel" aria-labelledby="deck-details-title">
+    <section class="panel panel--wide" aria-labelledby="deck-details-title">
       <div class="panel-header">
         <h2 id="deck-details-title">Deck Details</h2>
         <span id="deckStatus" class="pill"></span>
