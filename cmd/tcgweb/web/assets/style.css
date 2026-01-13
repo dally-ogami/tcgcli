@@ -456,7 +456,7 @@ button.danger:hover {
 }
 
 .line-chart {
-  width: 100%;
+  width: auto;
   height: 260px;
   display: block;
 }
