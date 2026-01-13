@@ -44,6 +44,17 @@
   --page-bg: linear-gradient(160deg, #f8f9fb 0%, #eff1f5 45%, #dce0e8 100%);
 }
 
+:root[data-theme="catppuccin-latte"] input,
+:root[data-theme="catppuccin-latte"] select {
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--text);
+  border-color: #c7cdda;
+}
+
+:root[data-theme="catppuccin-latte"] input::placeholder {
+  color: #7c7f93;
+}
+
 :root[data-theme="catppuccin-frappe"] {
   color-scheme: dark;
   --bg: #303446;
@@ -162,6 +173,51 @@
   --success: #98971a;
   --shadow: rgba(60, 56, 54, 0.15);
   --page-bg: linear-gradient(150deg, #fbf1c7 0%, #f2e5bc 50%, #d5c4a1 100%);
+}
+
+:root[data-theme="rose-pine"] {
+  color-scheme: dark;
+  --bg: #191724;
+  --panel: #1f1d2e;
+  --panel-border: #26233a;
+  --text: #e0def4;
+  --muted: #908caa;
+  --accent: #eb6f92;
+  --accent-dark: #9ccfd8;
+  --danger: #eb6f92;
+  --success: #31748f;
+  --shadow: rgba(25, 23, 36, 0.6);
+  --page-bg: linear-gradient(150deg, #191724 0%, #1f1d2e 50%, #26233a 100%);
+}
+
+:root[data-theme="rose-pine-dawn"] {
+  color-scheme: light;
+  --bg: #faf4ed;
+  --panel: #fffaf3;
+  --panel-border: #dfdad9;
+  --text: #575279;
+  --muted: #797593;
+  --accent: #d7827e;
+  --accent-dark: #286983;
+  --danger: #b4637a;
+  --success: #56949f;
+  --shadow: rgba(87, 82, 121, 0.15);
+  --page-bg: linear-gradient(150deg, #faf4ed 0%, #fffaf3 50%, #f2e9e1 100%);
+}
+
+:root[data-theme="rose-pine-moon"] {
+  color-scheme: dark;
+  --bg: #232136;
+  --panel: #2a273f;
+  --panel-border: #393552;
+  --text: #e0def4;
+  --muted: #908caa;
+  --accent: #c4a7e7;
+  --accent-dark: #9ccfd8;
+  --danger: #eb6f92;
+  --success: #3e8fb0;
+  --shadow: rgba(35, 33, 54, 0.6);
+  --page-bg: linear-gradient(150deg, #232136 0%, #2a273f 50%, #393552 100%);
 }
 
 * {
@@ -329,6 +385,10 @@ button.danger:hover {
   gap: 12px;
 }
 
+.card-results {
+  margin-top: 12px;
+}
+
 .card-item,
 .battle-item,
 .result-item {
@@ -373,6 +433,26 @@ button.danger:hover {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 12px;
+}
+
+.line-chart {
+  width: 100%;
+  height: 220px;
+}
+
+.line-chart path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+
+.line-chart circle {
+  fill: var(--accent);
+}
+
+.line-chart .chart-axis {
+  stroke: var(--panel-border);
+  stroke-width: 1;
 }
 
 .stat {

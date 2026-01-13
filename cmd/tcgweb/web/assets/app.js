@@ -16,6 +16,8 @@ const connectionStatus = document.getElementById("connectionStatus");
 const themeSelect = document.getElementById("themeSelect");
 const backgroundUpload = document.getElementById("backgroundUpload");
 const clearBackground = document.getElementById("clearBackground");
+const battleChart = document.getElementById("battleChart");
+const battleChartNotice = document.getElementById("battleChartNotice");
 
 const THEME_KEY = "tcgcli-theme";
 const BG_KEY = "tcgcli-background";
@@ -176,6 +178,58 @@ function renderDeck(deck) {
   } else {
     lossList.textContent = "No loss breakdown yet.";
   }
+
+  renderBattleChart(deck);
+}
+
+function renderBattleChart(deck) {
+  if (!battleChart || !battleChartNotice) {
+    return;
+  }
+
+  const battles = deck?.battles || [];
+  battleChart.innerHTML = "";
+  if (battles.length === 0) {
+    battleChartNotice.textContent = "No battle results to chart yet.";
+    return;
+  }
+
+  battleChartNotice.textContent = "";
+  const width = 600;
+  const height = 220;
+  const padding = 28;
+  let wins = 0;
+  const points = battles.map((battle, index) => {
+    if (battle.result === "W") {
+      wins += 1;
+    }
+    const winRate = (wins / (index + 1)) * 100;
+    return { index, winRate };
+  });
+
+  const maxX = Math.max(points.length - 1, 1);
+  const xStep = (width - padding * 2) / maxX;
+  const yScale = (height - padding * 2) / 100;
+  const coords = points.map((point, index) => {
+    const x = padding + index * xStep;
+    const y = height - padding - point.winRate * yScale;
+    return { x, y };
+  });
+
+  const axis = `
+    <line class="chart-axis" x1="${padding}" y1="${padding}" x2="${padding}" y2="${height - padding}" />
+    <line class="chart-axis" x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" />
+  `;
+
+  const pathData = coords
+    .map((point, index) => `${index === 0 ? "M" : "L"}${point.x},${point.y}`)
+    .join(" ");
+
+  const circles = coords
+    .map((point) => `<circle cx="${point.x}" cy="${point.y}" r="4" />`)
+    .join("");
+
+  battleChart.innerHTML = `${axis}<path d="${pathData}" />${circles}`;
 }
 
 async function loadDecks() {

@@ -36,6 +36,11 @@
             <option value="tokyo-night-storm">Storm</option>
             <option value="tokyo-night-moon">Moon</option>
           </optgroup>
+          <optgroup label="Rose Pine">
+            <option value="rose-pine">Rose Pine</option>
+            <option value="rose-pine-dawn">Rose Pine Dawn</option>
+            <option value="rose-pine-moon">Rose Pine Moon</option>
+          </optgroup>
           <optgroup label="Gruvbox">
             <option value="gruvbox-dark">Dark</option>
             <option value="gruvbox-light">Light</option>
@@ -87,6 +92,12 @@
           <ul class="battle-list" id="battleHistory"></ul>
         </div>
       </div>
+    </section>
+
+    <section class="panel panel--wide" aria-labelledby="battle-trend-title">
+      <h2 id="battle-trend-title">Battle Results Trend</h2>
+      <svg class="line-chart" id="battleChart" viewBox="0 0 600 220" role="img" aria-label="Line chart of battle win percentage over time"></svg>
+      <div class="notice" id="battleChartNotice"></div>
     </section>
 
     <section class="panel" aria-labelledby="card-search-title">
