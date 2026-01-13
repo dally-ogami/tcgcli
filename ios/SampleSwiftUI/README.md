@@ -5,6 +5,6 @@ They are **not** a full Xcode project. Copy them into a new SwiftUI app and upda
 module import if your framework is renamed.
 
 ## Notes
-- The `TCGClient` assumes the framework module name is `tcgcli` (from `tcgcli.framework`).
+- The `TCGClient` assumes the framework module name is `tcgcli` (from `tcgcli.xcframework`).
 - Update `decksDir` if you use a different application documents path.
 - JSON decoding uses lightweight Swift models that mirror the Go payloads.

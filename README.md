@@ -58,11 +58,11 @@ This lets you generate an iOS framework that a Swift/SwiftUI app can call.
 go install golang.org/x/mobile/cmd/gomobile@latest
 gomobile init
 
-# Build an iOS framework from the mobile wrapper.
-gomobile bind -target=ios -o tcgcli.framework ./mobile
+# Build an iOS xcframework from the mobile wrapper.
+gomobile bind -target=ios -o tcgcli.xcframework ./mobile
 ```
 
-You can then import `tcgcli.framework` into an Xcode project and call the `tcgmobile.Manager`
+You can then import `tcgcli.xcframework` into an Xcode project and call the `tcgmobile.Manager`
 APIs to list decks, add cards, record battles, and pull JSON payloads for UI rendering.
 
 ## Sample Output
