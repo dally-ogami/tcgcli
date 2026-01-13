@@ -1,0 +1,121 @@
+{
+  "cards": [
+    {
+      "name": "Pikachu ex",
+      "set": "Genetic Apex",
+      "count": 2
+    },
+    {
+      "name": "Zapdos",
+      "set": "Genetic Apex",
+      "count": 1
+    },
+    {
+      "name": "Raichu",
+      "set": "Genetic Apex",
+      "count": 1
+    }
+  ],
+  "battle_history": [
+    {
+      "date": "2026-01-01 09:05:00",
+      "result": "W",
+      "opponent": "Char Blaze — Regionals warmup"
+    },
+    {
+      "date": "2026-01-02 18:20:00",
+      "result": "L",
+      "opponent": "Snow Drift — Ladder climb"
+    },
+    {
+      "date": "2026-01-03 12:45:00",
+      "result": "W",
+      "opponent": "Garden Bloom — Testing session"
+    },
+    {
+      "date": "2026-01-04 20:10:00",
+      "result": "W",
+      "opponent": "Sky Surge — Best of 3"
+    },
+    {
+      "date": "2026-01-05 08:35:00",
+      "result": "L",
+      "opponent": "Rock Wall — League play"
+    },
+    {
+      "date": "2026-01-06 19:25:00",
+      "result": "W",
+      "opponent": "Moonlight — Friendly"
+    },
+    {
+      "date": "2026-01-07 14:15:00",
+      "result": "W",
+      "opponent": "Solar Flare — Stream match"
+    },
+    {
+      "date": "2026-01-08 21:05:00",
+      "result": "L",
+      "opponent": "Verdant Tide — Ladder session"
+    },
+    {
+      "date": "2026-01-09 10:40:00",
+      "result": "W",
+      "opponent": "Shadow Pulse — Scrimmage"
+    },
+    {
+      "date": "2026-01-10 17:30:00",
+      "result": "W",
+      "opponent": "Iron Crest — Local cup"
+    },
+    {
+      "date": "2026-01-11 13:50:00",
+      "result": "L",
+      "opponent": "Aqua Ring — Bracket"
+    },
+    {
+      "date": "2026-01-12 18:05:00",
+      "result": "W",
+      "opponent": "Crimson Gale — Practice"
+    },
+    {
+      "date": "2026-01-13 09:55:00",
+      "result": "W",
+      "opponent": "Thunder Line — Meta test"
+    },
+    {
+      "date": "2026-01-14 16:20:00",
+      "result": "L",
+      "opponent": "Frost Bloom — Ladder"
+    },
+    {
+      "date": "2026-01-15 11:15:00",
+      "result": "W",
+      "opponent": "Ember Wing — Friendly"
+    },
+    {
+      "date": "2026-01-16 19:40:00",
+      "result": "W",
+      "opponent": "Storm Echo — League"
+    },
+    {
+      "date": "2026-01-17 08:25:00",
+      "result": "L",
+      "opponent": "Leafbound — Event"
+    },
+    {
+      "date": "2026-01-18 15:05:00",
+      "result": "W",
+      "opponent": "Nightfall — Scrimmage"
+    },
+    {
+      "date": "2026-01-19 20:15:00",
+      "result": "W",
+      "opponent": "Volt Surge — Tournament"
+    },
+    {
+      "date": "2026-01-20 12:30:00",
+      "result": "L",
+      "opponent": "Terra Guard — Finals"
+    }
+  ]
+}
