@@ -58,22 +58,12 @@ This lets you generate an iOS framework that a Swift/SwiftUI app can call.
 go install golang.org/x/mobile/cmd/gomobile@latest
 gomobile init
 
-# Build an iOS xcframework from the mobile wrapper.
-./scripts/build_ios_framework.sh tcgcli.xcframework
+# Build an iOS framework from the mobile wrapper.
+gomobile bind -target=ios -o tcgcli.framework ./mobile
 ```
 
-### SwiftUI shell (template)
-
-1. Create a new Xcode SwiftUI app.
-2. Drag `tcgcli.xcframework` into the Xcode project, enable **Copy items if needed**, and
-   make sure it is linked under **Frameworks, Libraries, and Embedded Content**.
-3. Copy the files from `ios/SampleSwiftUI/` into your project (`TCGClient.swift`,
-   `ContentView.swift`), then update the import if your framework name differs.
-4. Ensure the framework module name matches the import (default is `tcgcli`).
-5. Build and run on a simulator or device.
-
-The sample `TCGClient` shows how to call `tcgmobile.Manager` to list decks, add cards,
-record battles, and decode JSON payloads for SwiftUI rendering.
+You can then import `tcgcli.framework` into an Xcode project and call the `tcgmobile.Manager`
+APIs to list decks, add cards, record battles, and pull JSON payloads for UI rendering.
 
 ## Sample Output
 ```bash
