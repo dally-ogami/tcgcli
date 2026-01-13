@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-OUTPUT_PATH=${1:-tcgcli.framework}
+OUTPUT_PATH=${1:-tcgcli.xcframework}
 
 if ! command -v gomobile >/dev/null 2>&1; then
   echo "gomobile not found. Install with: go install golang.org/x/mobile/cmd/gomobile@latest" >&2
@@ -15,5 +15,10 @@ fi
 
 gomobile init
 
-echo "Building iOS framework to ${OUTPUT_PATH}..."
+if [[ "${OUTPUT_PATH}" != *.xcframework ]]; then
+  echo "Output must end with .xcframework (gomobile requires this suffix for iOS)." >&2
+  exit 1
+fi
+
+echo "Building iOS xcframework to ${OUTPUT_PATH}..."
 gomobile bind -target=ios -o "${OUTPUT_PATH}" ./mobile
