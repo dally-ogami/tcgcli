@@ -48,6 +48,23 @@ go build -o tcgcli ./cmd/tcgcli
 ./tcgcli
 ```
 
+## iOS / gomobile bindings (experimental)
+
+The core logic now lives in the `tcg` package with a small `mobile` wrapper designed for `gomobile bind`.
+This lets you generate an iOS framework that a Swift/SwiftUI app can call.
+
+```bash
+# Install gomobile tooling (one-time)
+go install golang.org/x/mobile/cmd/gomobile@latest
+gomobile init
+
+# Build an iOS framework from the mobile wrapper.
+gomobile bind -target=ios -o tcgcli.framework ./mobile
+```
+
+You can then import `tcgcli.framework` into an Xcode project and call the `tcgmobile.Manager`
+APIs to list decks, add cards, record battles, and pull JSON payloads for UI rendering.
+
 ## Sample Output
 ```bash
 ./tcgcli
