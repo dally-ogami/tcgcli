@@ -28,6 +28,46 @@ function setStatus(text, variant = "info") {
   connectionStatus.style.color = variant === "error" ? "#fecaca" : "#38bdf8";
 }
 
+function formatBattleTimestamp(value) {
+  if (!value) {
+    return "";
+  }
+  const [datePart, timePart] = value.split(" ");
+  if (!datePart) {
+    return value;
+  }
+  const [year, month, day] = datePart.split("-");
+  if (!month || !day) {
+    return value;
+  }
+  const formattedDate = `${Number(month)}/${Number(day)}`;
+  if (!timePart) {
+    return formattedDate;
+  }
+  const [hour, minute] = timePart.split(":");
+  if (!hour || !minute) {
+    return formattedDate;
+  }
+  return `${formattedDate} ${hour}:${minute}`;
+}
+
+function splitOpponent(opponent) {
+  if (!opponent) {
+    return { name: "Unknown", details: "" };
+  }
+  const separators = [" — ", " - ", " | ", ": "];
+  for (const separator of separators) {
+    if (opponent.includes(separator)) {
+      const [name, ...rest] = opponent.split(separator);
+      return {
+        name: name.trim() || "Unknown",
+        details: rest.join(separator).trim(),
+      };
+    }
+  }
+  return { name: opponent.trim(), details: "" };
+}
+
 function applyTheme(theme) {
   if (!theme || theme === "default") {
     document.documentElement.removeAttribute("data-theme");
@@ -138,11 +178,16 @@ function renderDeck(deck) {
     deck.battles.slice().reverse().forEach((battle) => {
       const item = document.createElement("li");
       const isLoss = battle.result.toUpperCase() === "L";
+      const opponent = splitOpponent(battle.opponent);
+      const opponentDetails = opponent.details ? `<span class="muted">${opponent.details}</span>` : "";
       item.className = `battle-item ${isLoss ? "loss" : ""}`;
       item.innerHTML = `
         <strong>${battle.result === "W" ? "Win" : "Loss"}</strong>
-        <span class="muted">${battle.date}</span>
-        <div>${battle.opponent}</div>
+        <span class="muted">${formatBattleTimestamp(battle.date)}</span>
+        <div class="battle-opponent">
+          <span>${opponent.name}</span>
+          ${opponentDetails}
+        </div>
       `;
       battleHistory.appendChild(item);
     });
@@ -171,7 +216,15 @@ function renderDeck(deck) {
     Object.entries(stats.lossByOpponent).forEach(([opponent, count]) => {
       const item = document.createElement("li");
       item.className = "result-item";
-      item.innerHTML = `<strong>${opponent}</strong><span class="muted">${count} loss(es)</span>`;
+      const opponentInfo = splitOpponent(opponent);
+      const details = opponentInfo.details || "No details";
+      item.innerHTML = `
+        <strong>${opponentInfo.name}</strong>
+        <div class="result-meta">
+          <span>${details}</span>
+          <span>${count} loss(es)</span>
+        </div>
+      `;
       list.appendChild(item);
     });
     lossList.appendChild(list);
@@ -195,41 +248,83 @@ function renderBattleChart(deck) {
   }
 
   battleChartNotice.textContent = "";
-  const width = 600;
-  const height = 220;
-  const padding = 28;
+  const height = 260;
+  const paddingX = 40;
+  const paddingY = 32;
+  const widthPerPoint = 64;
+  const minWidth = 640;
   let wins = 0;
+  let losses = 0;
+
   const points = battles.map((battle, index) => {
     if (battle.result === "W") {
       wins += 1;
+    } else if (battle.result === "L") {
+      losses += 1;
     }
-    const winRate = (wins / (index + 1)) * 100;
-    return { index, winRate };
+    return {
+      index,
+      wins,
+      losses,
+      date: formatBattleTimestamp(battle.date),
+    };
   });
 
   const maxX = Math.max(points.length - 1, 1);
-  const xStep = (width - padding * 2) / maxX;
-  const yScale = (height - padding * 2) / 100;
-  const coords = points.map((point, index) => {
-    const x = padding + index * xStep;
-    const y = height - padding - point.winRate * yScale;
-    return { x, y };
-  });
+  const width = Math.max(minWidth, paddingX * 2 + maxX * widthPerPoint);
+  const maxY = Math.max(1, ...points.map((point) => Math.max(point.wins, point.losses)));
+  const yScale = (height - paddingY * 2) / maxY;
+
+  const xCoord = (index) => paddingX + index * widthPerPoint;
+  const yCoord = (value) => height - paddingY - value * yScale;
+
+  const winsCoords = points.map((point) => ({
+    x: xCoord(point.index),
+    y: yCoord(point.wins),
+  }));
+  const lossCoords = points.map((point) => ({
+    x: xCoord(point.index),
+    y: yCoord(point.losses),
+  }));
 
   const axis = `
-    <line class="chart-axis" x1="${padding}" y1="${padding}" x2="${padding}" y2="${height - padding}" />
-    <line class="chart-axis" x1="${padding}" y1="${height - padding}" x2="${width - padding}" y2="${height - padding}" />
+    <line class="chart-axis" x1="${paddingX}" y1="${paddingY}" x2="${paddingX}" y2="${height - paddingY}" />
+    <line class="chart-axis" x1="${paddingX}" y1="${height - paddingY}" x2="${width - paddingX}" y2="${height - paddingY}" />
   `;
 
-  const pathData = coords
+  const gridLines = Array.from({ length: 3 }, (_, index) => {
+    const y = paddingY + ((height - paddingY * 2) / 3) * (index + 1);
+    return `<line class="chart-grid" x1="${paddingX}" y1="${y}" x2="${width - paddingX}" y2="${y}" />`;
+  }).join("");
+
+  const winsPath = winsCoords
+    .map((point, index) => `${index === 0 ? "M" : "L"}${point.x},${point.y}`)
+    .join(" ");
+  const lossesPath = lossCoords
     .map((point, index) => `${index === 0 ? "M" : "L"}${point.x},${point.y}`)
     .join(" ");
 
-  const circles = coords
-    .map((point) => `<circle cx="${point.x}" cy="${point.y}" r="4" />`)
+  const winsCircles = winsCoords
+    .map((point) => `<circle class="chart-point wins" cx="${point.x}" cy="${point.y}" r="4" />`)
+    .join("");
+  const lossesCircles = lossCoords
+    .map((point) => `<circle class="chart-point losses" cx="${point.x}" cy="${point.y}" r="4" />`)
     .join("");
 
-  battleChart.innerHTML = `${axis}<path d="${pathData}" />${circles}`;
+  const labelInterval = Math.max(1, Math.ceil(points.length / 6));
+  const labels = points
+    .filter((point) => point.index % labelInterval === 0 || point.index === points.length - 1)
+    .map((point) => {
+      const x = xCoord(point.index);
+      const y = height - paddingY + 18;
+      return `<text class="chart-label" x="${x}" y="${y}" text-anchor="middle">${point.date}</text>`;
+    })
+    .join("");
+
+  battleChart.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  battleChart.setAttribute("width", width);
+  battleChart.setAttribute("height", height);
+  battleChart.innerHTML = `${gridLines}${axis}<path class="chart-path wins" d="${winsPath}" /><path class="chart-path losses" d="${lossesPath}" />${winsCircles}${lossesCircles}${labels}`;
 }
 
 async function loadDecks() {
@@ -324,12 +419,16 @@ async function recordBattle(event) {
     return;
   }
   const result = document.getElementById("battleResult").value;
-  const opponent = document.getElementById("opponent").value.trim();
+  const opponentName = document.getElementById("opponentDeck").value.trim();
+  const opponentDetails = document.getElementById("opponentDetails").value.trim();
+  const opponentBase = opponentName || "Unknown";
+  const opponent = opponentDetails ? `${opponentBase} — ${opponentDetails}` : opponentBase;
   const deck = await apiFetch(`/api/decks/${encodeURIComponent(state.currentDeck.name)}/battles`, {
     method: "POST",
     body: JSON.stringify({ result, opponent }),
   });
-  document.getElementById("opponent").value = "";
+  document.getElementById("opponentDeck").value = "";
+  document.getElementById("opponentDetails").value = "";
   renderDeck(deck);
 }
 
