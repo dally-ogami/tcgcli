@@ -48,22 +48,21 @@ go build -o tcgcli ./cmd/tcgcli
 ./tcgcli
 ```
 
-## iOS / gomobile bindings (experimental)
+## Web UI
 
-The core logic now lives in the `tcg` package with a small `mobile` wrapper designed for `gomobile bind`.
-This lets you generate an iOS framework that a Swift/SwiftUI app can call.
+Serve a mobile-friendly web interface on your network:
 
 ```bash
-# Install gomobile tooling (one-time)
-go install golang.org/x/mobile/cmd/gomobile@latest
-gomobile init
-
-# Build an iOS xcframework from the mobile wrapper.
-gomobile bind -target=ios -o tcgcli.xcframework ./mobile
+go run ./cmd/tcgweb
 ```
 
-You can then import `tcgcli.xcframework` into an Xcode project and call the `tcgmobile.Manager`
-APIs to list decks, add cards, record battles, and pull JSON payloads for UI rendering.
+By default the server listens on `:8080`. Override it with `TCG_WEB_ADDR` if needed:
+
+```bash
+TCG_WEB_ADDR=":9090" go run ./cmd/tcgweb
+```
+
+Then open `http://<server-ip>:8080` from any device on your network.
 
 ## Sample Output
 ```bash

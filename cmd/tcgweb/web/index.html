@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TCGCLI Web</title>
+  <link rel="stylesheet" href="/assets/style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <h1>TCGCLI Web</h1>
+      <p>Manage Pokémon TCG Pocket decks from any device on your network.</p>
+    </div>
+    <div class="status" id="connectionStatus">Connecting...</div>
+  </header>
+
+  <main class="app-shell">
+    <section class="panel" aria-labelledby="deck-manager-title">
+      <h2 id="deck-manager-title">Deck Manager</h2>
+      <form id="createDeckForm" class="stack">
+        <label for="deckName">Create new deck</label>
+        <div class="row">
+          <input id="deckName" name="deckName" type="text" placeholder="e.g. Lightning Rush" autocomplete="off" />
+          <button type="submit">Create</button>
+        </div>
+      </form>
+
+      <div class="stack">
+        <label for="deckSelect">Load existing deck</label>
+        <select id="deckSelect">
+          <option value="">Select a deck</option>
+        </select>
+      </div>
+
+      <div class="notice" id="deckNotice" role="status"></div>
+    </section>
+
+    <section class="panel" aria-labelledby="deck-details-title">
+      <div class="panel-header">
+        <h2 id="deck-details-title">Deck Details</h2>
+        <span id="deckStatus" class="pill"></span>
+      </div>
+      <div class="deck-meta" id="deckMeta"></div>
+
+      <div class="grid">
+        <div>
+          <h3>Cards in Deck</h3>
+          <ul class="card-list" id="deckCards"></ul>
+        </div>
+        <div>
+          <h3>Battle History</h3>
+          <ul class="battle-list" id="battleHistory"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="card-search-title">
+      <h2 id="card-search-title">Find & Add Cards</h2>
+      <form id="searchForm" class="stack">
+        <label for="searchTerm">Search by card name, set, or ID</label>
+        <div class="row">
+          <input id="searchTerm" name="searchTerm" type="text" placeholder="Pikachu, Genetic Apex, gna-001" autocomplete="off" />
+          <button type="submit">Search</button>
+        </div>
+      </form>
+      <ul class="card-results" id="searchResults"></ul>
+    </section>
+
+    <section class="panel" aria-labelledby="battle-title">
+      <h2 id="battle-title">Record Battle</h2>
+      <form id="battleForm" class="stack">
+        <label for="battleResult">Outcome</label>
+        <select id="battleResult" name="battleResult">
+          <option value="W">Win</option>
+          <option value="L">Loss</option>
+        </select>
+        <label for="opponent">Opponent details</label>
+        <input id="opponent" name="opponent" type="text" placeholder="Opponent deck or notes" autocomplete="off" />
+        <button type="submit">Add battle</button>
+      </form>
+    </section>
+
+    <section class="panel" aria-labelledby="stats-title">
+      <h2 id="stats-title">Deck Statistics</h2>
+      <div class="stats-grid" id="statsGrid"></div>
+      <div class="loss-list" id="lossList"></div>
+    </section>
+  </main>
+
+  <script src="/assets/app.js"></script>
+</body>
+</html>
