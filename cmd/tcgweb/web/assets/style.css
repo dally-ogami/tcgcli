@@ -44,6 +44,17 @@
   --page-bg: linear-gradient(160deg, #f8f9fb 0%, #eff1f5 45%, #dce0e8 100%);
 }
 
+:root[data-theme="catppuccin-latte"] input,
+:root[data-theme="catppuccin-latte"] select {
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--text);
+  border-color: #c7cdda;
+}
+
+:root[data-theme="catppuccin-latte"] input::placeholder {
+  color: #7c7f93;
+}
+
 :root[data-theme="catppuccin-frappe"] {
   color-scheme: dark;
   --bg: #303446;
@@ -329,6 +340,10 @@ button.danger:hover {
   gap: 12px;
 }
 
+.card-results {
+  margin-top: 12px;
+}
+
 .card-item,
 .battle-item,
 .result-item {
@@ -373,6 +388,26 @@ button.danger:hover {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 12px;
+}
+
+.line-chart {
+  width: 100%;
+  height: 220px;
+}
+
+.line-chart path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+
+.line-chart circle {
+  fill: var(--accent);
+}
+
+.line-chart .chart-axis {
+  stroke: var(--panel-border);
+  stroke-width: 1;
 }
 
 .stat {
