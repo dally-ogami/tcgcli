@@ -94,9 +94,15 @@
       </div>
     </section>
 
-    <section class="panel panel--wide" aria-labelledby="battle-trend-title">
+    <section class="panel panel--wide panel--frosted" aria-labelledby="battle-trend-title">
       <h2 id="battle-trend-title">Battle Results Trend</h2>
-      <svg class="line-chart" id="battleChart" viewBox="0 0 600 220" role="img" aria-label="Line chart of battle win percentage over time"></svg>
+      <div class="chart-scroll">
+        <svg class="line-chart" id="battleChart" viewBox="0 0 600 260" role="img" aria-label="Line chart of battle wins and losses over time"></svg>
+      </div>
+      <div class="chart-legend" aria-hidden="true">
+        <span class="legend-item wins"><span class="legend-swatch"></span>Wins</span>
+        <span class="legend-item losses"><span class="legend-swatch"></span>Losses</span>
+      </div>
       <div class="notice" id="battleChartNotice"></div>
     </section>
 
@@ -120,8 +126,10 @@
           <option value="W">Win</option>
           <option value="L">Loss</option>
         </select>
-        <label for="opponent">Opponent details</label>
-        <input id="opponent" name="opponent" type="text" placeholder="Opponent deck or notes" autocomplete="off" />
+        <label for="opponentDeck">Opponent deck name</label>
+        <input id="opponentDeck" name="opponentDeck" type="text" placeholder="Deck name" autocomplete="off" />
+        <label for="opponentDetails">Opponent details</label>
+        <input id="opponentDetails" name="opponentDetails" type="text" placeholder="Notes, pilot name, or context" autocomplete="off" />
         <button type="submit">Add battle</button>
       </form>
     </section>
